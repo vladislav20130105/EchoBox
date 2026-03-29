@@ -4,7 +4,8 @@
 
 ## 📸 Скриншоты
 
-<img width="1247" height="912" alt="image" src="https://github.com/user-attachments/assets/63f20a58-d3fb-4f0c-8878-afad87cc583d" />
+<img width="1246" height="913" alt="image" src="https://github.com/user-attachments/assets/6df59c1d-21b4-4af6-a52b-2f861a6ad2d4" />
+
 
 
 ## ✨ Возможности
