@@ -97,6 +97,11 @@ class EchoBox:
         
         # Настройка аудио потока
         self.setup_audio_stream()
+        
+        # Горячие клавиши
+        self.root.bind('<Control-f>', lambda e: self.search_entry.focus_set())
+        self.root.bind('<Control-F>', lambda e: self.search_entry.focus_set())
+        self.root.bind('<Escape>', lambda e: self.clear_search())
     
     def create_gradient_image(self, width, height, color1, color2, direction="vertical"):
         """Создает градиентное изображение"""
@@ -340,6 +345,31 @@ class EchoBox:
                               font=("Segoe UI Emoji", 18, "bold"), 
                               fg=LIGHT_TEXT, bg=LIGHT_PANE)
         list_title.pack(pady=(0, 16), anchor=tk.W)
+        
+        # Поле поиска
+        search_frame = tk.Frame(list_inner, bg=LIGHT_PANE)
+        search_frame.pack(fill=tk.X, pady=(0, 16))
+        
+        search_label = tk.Label(search_frame, text="🔍 Поиск:", 
+                               font=("Segoe UI Emoji", 12), 
+                               fg=LIGHT_TEXT_SECONDARY, bg=LIGHT_PANE)
+        search_label.pack(side=tk.LEFT, padx=(0, 8))
+        
+        self.search_var = tk.StringVar()
+        self.search_var.trace('w', self.filter_sounds)
+        
+        self.search_entry = tk.Entry(search_frame, textvariable=self.search_var,
+                                     font=("Segoe UI", 11), bg=LIGHT_PANE, 
+                                     fg=LIGHT_TEXT, relief=tk.FLAT, bd=1)
+        self.search_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 8))
+        
+        # Кнопка очистки поиска
+        self.clear_search_btn = tk.Button(search_frame, text="✕", 
+                                         font=("Segoe UI", 10, "bold"),
+                                         bg=LIGHT_BORDER, fg=LIGHT_TEXT_SECONDARY,
+                                         relief=tk.FLAT, bd=0, padx=8, pady=4,
+                                         command=self.clear_search)
+        self.clear_search_btn.pack(side=tk.RIGHT)
         
         # Treeview
         style = ttk.Style()
@@ -620,17 +650,8 @@ class EchoBox:
     
     def refresh_sound_list(self):
         """Обновление списка звуков"""
-        # Очистка дерева
-        for item in self.sound_tree.get_children():
-            self.sound_tree.delete(item)
-        
-        # Добавление звуков
-        for sound_id, info in self.sound_library.items():
-            self.sound_tree.insert("", tk.END, values=(
-                info["name"],
-                info.get("duration", "N/A"),
-                info.get("format", "N/A")
-            ))
+        # Вызываем фильтрацию (она обновит список с учетом поиска)
+        self.filter_sounds()
     
     def add_sound_to_library(self):
         """Добавление звука в библиотеку"""
@@ -1137,6 +1158,40 @@ class EchoBox:
             print(f"Доступные аудиоустройства: {len(devices)}")
         except Exception as e:
             print(f"Ошибка настройки аудио: {e}")
+    
+    def filter_sounds(self, *args):
+        """Фильтрация звуков по поисковому запросу"""
+        search_term = self.search_var.get().lower().strip()
+        
+        # Очистка дерева
+        for item in self.sound_tree.get_children():
+            self.sound_tree.delete(item)
+        
+        # Фильтрация и добавление звуков
+        filtered_count = 0
+        for sound_id, info in self.sound_library.items():
+            sound_name = info["name"].lower()
+            sound_format = info.get("format", "").lower()
+            
+            # Проверка совпадения по названию или формату
+            if search_term in sound_name or search_term in sound_format:
+                self.sound_tree.insert("", tk.END, values=(
+                    info["name"],
+                    info.get("duration", "N/A"),
+                    info.get("format", "N/A")
+                ))
+                filtered_count += 1
+        
+        # Обновление статуса
+        if search_term:
+            self.status_label.config(text=f"🔍 Найдено: {filtered_count} звуков")
+        else:
+            self.status_label.config(text="📂 Ваша библиотека")
+    
+    def clear_search(self):
+        """Очистка поля поиска"""
+        self.search_var.set("")
+        self.search_entry.focus_set()
 
 if __name__ == "__main__":
     root = tk.Tk()

@@ -2,10 +2,14 @@ from setuptools import setup, find_packages
 
 setup(
     name="echobox",
-    version="1.5.0",
+    version="1.6.0",
     description="EchoBox - Простая библиотека звуков",
-    author="BANANCHIKIREAL",
+    long_description="Простая и удобная библиотека звуков с поддержкой MP3 и WAV файлов",
+    author="EchoBox Team",
+    author_email="support@echobox.com",
+    url="https://github.com/vladislav20130105/EchoBox",
     packages=find_packages(),
+    py_modules=["echobox"],
     install_requires=[
         "pygame>=2.5.2",
         "pyaudio>=0.2.11",
@@ -27,5 +31,11 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Operating System :: OS Independent",
     ],
+    entry_points={
+        "console_scripts": [
+            "echobox=echobox:main",
+        ],
+    },
 )
