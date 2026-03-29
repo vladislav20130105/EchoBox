@@ -4,7 +4,8 @@
 
 ## 📸 Скриншоты
 
-![EchoBox Interface](https://via.placeholder.com/800x400/4169E1/FFFFFF?text=EchoBox+Interface)
+<img width="1247" height="912" alt="image" src="https://github.com/user-attachments/assets/63f20a58-d3fb-4f0c-8878-afad87cc583d" />
+
 
 ## ✨ Возможности
 
@@ -108,8 +109,7 @@ MIT License - свободное использование и распрост�
 ## 📞 Поддержка
 
 Если нашли ошибку или есть предложения:
-- Создайте Issue в GitHub
-- Напишите на email: support@echobox.com
+- Напишите на Telegram: @BANANCHIKIREALTG
 
 ---
 
