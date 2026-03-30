@@ -47,9 +47,9 @@ class EchoBox:
     def __init__(self, root):
         self.root = root
         self.root.title("🎵 EchoBox - Библиотека звуков")
-        self.root.geometry("1000x700")
+        self.root.geometry("900x800")  # Сделал длину немного меньше (800 вместо 900)
         self.root.configure(bg=LIGHT_BG)
-        self.root.minsize(800, 600)
+        self.root.minsize(800, 650)  # Сделал минимальную высоту тоже меньше
         
         # Получаем путь к папке приложения
         if getattr(sys, 'frozen', False):
@@ -259,7 +259,85 @@ class EchoBox:
                                  fg="#E0E7FF", bg=LIGHT_ACCENT)
         subtitle_label.pack(anchor=tk.W)
         
-        # Панель списка звуков с карточным дизайном - ПЕРЕМЕСТИЛИ ВЫШЕ, ПОСЛЕ ЗАГОЛОВКА
+        # Панель инструментов с кнопками как на скриншоте - ВОЗВРАЩАЕМ НАВЕРХ
+        toolbar_frame = tk.Frame(main_container, bg="#FFFFFF", relief=tk.FLAT, bd=0)
+        toolbar_frame.pack(fill=tk.X, pady=(0, 20))
+        
+        toolbar_inner = tk.Frame(toolbar_frame, bg=LIGHT_PANE)
+        toolbar_inner.pack(fill=tk.X, padx=32, pady=20)
+        
+        # Левая группа кнопок
+        left_buttons = tk.Frame(toolbar_inner, bg=LIGHT_PANE, relief=tk.RAISED, bd=1)
+        left_buttons.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        
+        # Создаем кастомные кнопки с фоном через Frame
+        
+        # Кнопка добавления звука
+        add_button_frame = tk.Frame(left_buttons, bg="#4169E1", relief=tk.FLAT, bd=0)
+        add_button_frame.pack(side=tk.LEFT, padx=(0, 4))
+        self.add_button = tk.Button(add_button_frame, text="➕", 
+                                   command=self.add_sound_to_library,
+                                   font=("Segoe UI Emoji", 16, "bold"),
+                                   bg="#4169E1", fg="WHITE",
+                                   activebackground="#2E4BC7",
+                                   relief=tk.SOLID, bd=1,
+                                   padx=18, pady=10,
+                                   cursor="hand2")
+        self.add_button.pack(padx=3, pady=3)
+        
+        # Кнопка воспроизведения
+        play_button_frame = tk.Frame(left_buttons, bg="#28A745", relief=tk.FLAT, bd=0)
+        play_button_frame.pack(side=tk.LEFT, padx=4)
+        self.play_button = tk.Button(play_button_frame, text="▶️", 
+                                    command=self.play_selected_sound,
+                                    font=("Segoe UI Emoji", 16, "bold"),
+                                    bg="#28A745", fg="WHITE",
+                                    activebackground="#1E7E34",
+                                    relief=tk.SOLID, bd=1,
+                                    padx=18, pady=10,
+                                    state=tk.DISABLED,
+                                    cursor="hand2")
+        self.play_button.pack(padx=3, pady=3)
+        
+        # Кнопка стопа
+        stop_button_frame = tk.Frame(left_buttons, bg="#DC3545", relief=tk.FLAT, bd=0)
+        stop_button_frame.pack(side=tk.LEFT, padx=4)
+        self.stop_button = tk.Button(stop_button_frame, text="⏹️", 
+                                   command=self.stop_playback,
+                                   font=("Segoe UI Emoji", 16, "bold"),
+                                   bg="#DC3545", fg="WHITE",
+                                   activebackground="#C82333",
+                                   relief=tk.SOLID, bd=1,
+                                   padx=18, pady=10,
+                                   state=tk.DISABLED,
+                                   cursor="hand2")
+        self.stop_button.pack(padx=3, pady=3)
+        
+        # Кнопка закончить
+        finish_button_frame = tk.Frame(left_buttons, bg="#6C757D", relief=tk.FLAT, bd=0)
+        finish_button_frame.pack(side=tk.LEFT, padx=4)
+        self.finish_button = tk.Button(finish_button_frame, text="🛑", 
+                                     command=self.finish_playback,
+                                     font=("Segoe UI Emoji", 16, "bold"),
+                                     bg="#6C757D", fg="WHITE",
+                                     activebackground="#545B62",
+                                     relief=tk.SOLID, bd=1,
+                                     padx=18, pady=10,
+                                     state=tk.DISABLED,
+                                     cursor="hand2")
+        self.finish_button.pack(padx=3, pady=3)
+        
+        # Информационная метка рядом с кнопками
+        self.status_label = tk.Label(left_buttons, text="Выберите звук для воспроизведения", 
+                                  font=("Segoe UI", 11), 
+                                  fg=LIGHT_TEXT_SECONDARY, bg=LIGHT_PANE)
+        self.status_label.pack(side=tk.LEFT, padx=(16, 0))
+        
+        # Правая группа кнопок (пустая, так как бинды отключены)
+        right_buttons = tk.Frame(toolbar_inner, bg=LIGHT_PANE, relief=tk.RAISED, bd=1)
+        right_buttons.pack(side=tk.RIGHT)
+        
+        # Панель списка звуков с карточным дизайном - ПОСЛЕ КНОПОК
         list_container = tk.Frame(main_container, bg=LIGHT_PANE, relief=tk.FLAT, bd=1)
         list_container.pack(fill=tk.BOTH, expand=True, pady=(0, 20))
         
@@ -357,16 +435,16 @@ class EchoBox:
         
         self.sound_tree = ttk.Treeview(tree_frame, columns=("name", "duration", "format"), 
                                      show="headings", style="Light.Treeview",
-                                     height=12)
+                                     height=15)  # Уменьшил высоту до 15 строк
         
         # Настройка колонок
         self.sound_tree.heading("name", text="Название")
         self.sound_tree.heading("duration", text="Длительность")
         self.sound_tree.heading("format", text="Формат")
         
-        self.sound_tree.column("name", width=250, anchor="w")
-        self.sound_tree.column("duration", width=100, anchor="center")
-        self.sound_tree.column("format", width=80, anchor="center")
+        self.sound_tree.column("name", width=200, anchor="w")  # Уменьшил ширину названия
+        self.sound_tree.column("duration", width=100, anchor="center")  # Вернул длительность
+        self.sound_tree.column("format", width=80, anchor="center")  # Вернул формат
         
         # Добавляем прокрутку
         scrollbar = ttk.Scrollbar(tree_frame, orient="vertical", command=self.sound_tree.yview)
@@ -395,84 +473,6 @@ class EchoBox:
         
         # Загрузка данных
         self.load_library()
-        
-        # Панель инструментов с кнопками как на скриншоте - ПЕРЕМЕСТИЛИ ВНИЗ
-        toolbar_frame = tk.Frame(main_container, bg="#FFFFFF", relief=tk.FLAT, bd=0)
-        toolbar_frame.pack(fill=tk.X, pady=(0, 20))
-        
-        toolbar_inner = tk.Frame(toolbar_frame, bg=LIGHT_PANE)
-        toolbar_inner.pack(fill=tk.X, padx=32, pady=20)
-        
-        # Левая группа кнопок
-        left_buttons = tk.Frame(toolbar_inner, bg=LIGHT_PANE, relief=tk.RAISED, bd=1)
-        left_buttons.pack(side=tk.LEFT, fill=tk.X, expand=True)
-        
-        # Создаем кастомные кнопки с фоном через Frame
-        
-        # Кнопка добавления звука
-        add_button_frame = tk.Frame(left_buttons, bg="#4169E1", relief=tk.FLAT, bd=0)
-        add_button_frame.pack(side=tk.LEFT, padx=(0, 4))
-        self.add_button = tk.Button(add_button_frame, text="➕", 
-                                   command=self.add_sound_to_library,
-                                   font=("Segoe UI Emoji", 16, "bold"),
-                                   bg="#4169E1", fg="WHITE",
-                                   activebackground="#2E4BC7",
-                                   relief=tk.SOLID, bd=1,
-                                   padx=18, pady=10,
-                                   cursor="hand2")
-        self.add_button.pack(padx=3, pady=3)
-        
-        # Кнопка воспроизведения
-        play_button_frame = tk.Frame(left_buttons, bg="#28A745", relief=tk.FLAT, bd=0)
-        play_button_frame.pack(side=tk.LEFT, padx=4)
-        self.play_button = tk.Button(play_button_frame, text="▶️", 
-                                    command=self.play_selected_sound,
-                                    font=("Segoe UI Emoji", 16, "bold"),
-                                    bg="#28A745", fg="WHITE",
-                                    activebackground="#1E7E34",
-                                    relief=tk.SOLID, bd=1,
-                                    padx=18, pady=10,
-                                    state=tk.DISABLED,
-                                    cursor="hand2")
-        self.play_button.pack(padx=3, pady=3)
-        
-        # Кнопка стопа
-        stop_button_frame = tk.Frame(left_buttons, bg="#DC3545", relief=tk.FLAT, bd=0)
-        stop_button_frame.pack(side=tk.LEFT, padx=4)
-        self.stop_button = tk.Button(stop_button_frame, text="⏹️", 
-                                   command=self.stop_playback,
-                                   font=("Segoe UI Emoji", 16, "bold"),
-                                   bg="#DC3545", fg="WHITE",
-                                   activebackground="#C82333",
-                                   relief=tk.SOLID, bd=1,
-                                   padx=18, pady=10,
-                                   state=tk.DISABLED,
-                                   cursor="hand2")
-        self.stop_button.pack(padx=3, pady=3)
-        
-        # Кнопка закончить
-        finish_button_frame = tk.Frame(left_buttons, bg="#6C757D", relief=tk.FLAT, bd=0)
-        finish_button_frame.pack(side=tk.LEFT, padx=4)
-        self.finish_button = tk.Button(finish_button_frame, text="🛑", 
-                                     command=self.finish_playback,
-                                     font=("Segoe UI Emoji", 16, "bold"),
-                                     bg="#6C757D", fg="WHITE",
-                                     activebackground="#545B62",
-                                     relief=tk.SOLID, bd=1,
-                                     padx=18, pady=10,
-                                     state=tk.DISABLED,
-                                     cursor="hand2")
-        self.finish_button.pack(padx=3, pady=3)
-        
-        # Информационная метка рядом с кнопками
-        self.status_label = tk.Label(left_buttons, text="Выберите звук для воспроизведения", 
-                                  font=("Segoe UI", 11), 
-                                  fg=LIGHT_TEXT_SECONDARY, bg=LIGHT_PANE)
-        self.status_label.pack(side=tk.LEFT, padx=(16, 0))
-        
-        # Правая группа кнопок (пустая, так как бинды отключены)
-        right_buttons = tk.Frame(toolbar_inner, bg=LIGHT_PANE, relief=tk.RAISED, bd=1)
-        right_buttons.pack(side=tk.RIGHT)
         
         # Создаем фон после небольшой задержки
         self.root.after(500, self.create_background)
@@ -1480,7 +1480,7 @@ class EchoBox:
         """Показать диалог создания плейлиста"""
         dialog = tk.Toplevel(self.root)
         dialog.title("Новый плейлист")
-        dialog.geometry("400x150")
+        dialog.geometry("450x180")  # Сделал окно выше по высоте (180 вместо 150)
         dialog.configure(bg=LIGHT_PANE)
         dialog.transient(self.root)
         dialog.grab_set()
@@ -1493,7 +1493,7 @@ class EchoBox:
         
         # Поле ввода названия
         tk.Label(dialog, text="Название плейлиста:", 
-                font=("Segoe UI", 12), fg=LIGHT_TEXT, bg=LIGHT_PANE).pack(pady=(25, 10))
+                font=("Segoe UI", 12), fg=LIGHT_TEXT, bg=LIGHT_PANE).pack(pady=(30, 10))
         
         name_entry = tk.Entry(dialog, font=("Segoe UI", 12), bg=LIGHT_PANE, fg=LIGHT_TEXT)
         name_entry.pack(padx=30, fill=tk.X)
@@ -1501,7 +1501,7 @@ class EchoBox:
         
         # Кнопки
         btn_frame = tk.Frame(dialog, bg=LIGHT_PANE)
-        btn_frame.pack(pady=25)
+        btn_frame.pack(pady=30)
         
         def create():
             name = name_entry.get().strip()

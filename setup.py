@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="echobox",
-    version="1.7.0",
+    version="1.7.1",
     description="EchoBox - Простая библиотека звуков",
     long_description="Простая и удобная библиотека звуков с поддержкой MP3 и WAV файлов",
     author="EchoBox Team",
