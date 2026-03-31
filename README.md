@@ -4,7 +4,8 @@
 
 ## 📸 Скриншоты
 
-![EchoBox Interface](https://via.placeholder.com/800x400/4169E1/FFFFFF?text=EchoBox+Interface)
+<img width="1124" height="1038" alt="image" src="https://github.com/user-attachments/assets/ace65ca1-408e-4768-829c-27bcb0f2bb8f" />
+
 
 ## ✨ Возможности
 
