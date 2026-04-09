@@ -109,6 +109,29 @@ body {
     justify-content: center;
     color: white;
     font-size: 1.2rem;
+    position: relative;
+}
+
+.logo-icon::before {
+    content: " ";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    top: 6px;
+    left: 10px;
+}
+
+.logo-icon::after {
+    content: " ";
+    position: absolute;
+    width: 8px;
+    height: 16px;
+    background: white;
+    top: 14px;
+    left: 12px;
+    border-radius: 0 0 4px 4px;
 }
 
 .nav-menu {
@@ -183,6 +206,34 @@ body {
     font-size: 3.5rem;
     display: inline-block;
     animation: bounce 2s infinite;
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    position: relative;
+    margin-right: var(--spacing-sm);
+}
+
+.hero-title .emoji::before {
+    content: " ";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 12px;
+    left: 20px;
+}
+
+.hero-title .emoji::after {
+    content: " ";
+    position: absolute;
+    width: 12px;
+    height: 28px;
+    background: white;
+    top: 28px;
+    left: 24px;
+    border-radius: 0 0 6px 6px;
 }
 
 @keyframes bounce {
@@ -457,10 +508,150 @@ body {
     font-size: 2rem;
     color: white;
     transition: var(--transition-normal);
+    position: relative;
 }
 
 .feature-card:hover .feature-icon {
     transform: scale(1.1);
+}
+
+/* Multi-format icon - music note */
+.feature-card:nth-child(1) .feature-icon::before {
+    content: " ";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    top: 10px;
+    left: 22px;
+}
+
+.feature-card:nth-child(1) .feature-icon::after {
+    content: " ";
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background: white;
+    top: 22px;
+    left: 25px;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Playlist icon - list */
+.feature-card:nth-child(2) .feature-icon::before {
+    content: " ";
+    position: absolute;
+    width: 30px;
+    height: 4px;
+    background: white;
+    top: 15px;
+    left: 15px;
+    border-radius: 2px;
+}
+
+.feature-card:nth-child(2) .feature-icon::after {
+    content: " ";
+    position: absolute;
+    width: 30px;
+    height: 4px;
+    background: white;
+    top: 25px;
+    left: 15px;
+    border-radius: 2px;
+    box-shadow: 0 10px 0 white, 0 20px 0 white;
+}
+
+/* Hotkeys icon - keyboard */
+.feature-card:nth-child(3) .feature-icon::before {
+    content: " ";
+    position: absolute;
+    width: 35px;
+    height: 22px;
+    background: white;
+    top: 19px;
+    left: 12px;
+    border-radius: 4px;
+}
+
+.feature-card:nth-child(3) .feature-icon::after {
+    content: "123";
+    position: absolute;
+    color: var(--primary-color);
+    font-size: 10px;
+    font-weight: bold;
+    top: 23px;
+    left: 18px;
+}
+
+/* Search icon - magnifying glass */
+.feature-card:nth-child(4) .feature-icon::before {
+    content: " ";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid white;
+    border-radius: 50%;
+    top: 12px;
+    left: 15px;
+}
+
+.feature-card:nth-child(4) .feature-icon::after {
+    content: " ";
+    position: absolute;
+    width: 8px;
+    height: 3px;
+    background: white;
+    top: 32px;
+    left: 32px;
+    transform: rotate(45deg);
+}
+
+/* Progress bar icon */
+.feature-card:nth-child(5) .feature-icon::before {
+    content: " ";
+    position: absolute;
+    width: 35px;
+    height: 6px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    top: 27px;
+    left: 12px;
+}
+
+.feature-card:nth-child(5) .feature-icon::after {
+    content: " ";
+    position: absolute;
+    width: 20px;
+    height: 6px;
+    background: white;
+    border-radius: 3px;
+    top: 27px;
+    left: 12px;
+}
+
+/* Interface icon - window */
+.feature-card:nth-child(6) .feature-icon::before {
+    content: " ";
+    position: absolute;
+    width: 35px;
+    height: 25px;
+    border: 3px solid white;
+    border-radius: 4px;
+    top: 15px;
+    left: 12px;
+}
+
+.feature-card:nth-child(6) .feature-icon::after {
+    content: " ";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    top: 19px;
+    left: 18px;
+    box-shadow: 15px 0 0 white;
 }
 
 .feature-title {
