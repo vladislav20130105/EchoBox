@@ -100,8 +100,8 @@ body {
 }
 
 .logo-img {
-    width: 48px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
     object-fit: contain;
     margin-right: var(--spacing-xs);
 }
@@ -175,8 +175,8 @@ body {
 }
 
 .hero-logo {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     object-fit: contain;
     margin-right: var(--spacing-md);
     animation: bounce 2s infinite;
@@ -829,8 +829,8 @@ body {
 }
 
 .footer-logo-img {
-    width: 36px;
-    height: 36px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
     margin-right: var(--spacing-xs);
 }
